@@ -1,3 +1,8 @@
-bird_app/android/gradleBuild/
+# Android
+.gradle
+.idea
+*.iml
+local.properties
+gradleBuild
 
 bird_app/android/assets/backup*
