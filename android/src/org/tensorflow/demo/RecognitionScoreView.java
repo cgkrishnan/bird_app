@@ -61,8 +61,14 @@ public class RecognitionScoreView extends View implements ResultsView {
 
     if (results != null) {
       for (final Recognition recog : results) {
-        canvas.drawText(recog.getTitle() + ": " + recog.getConfidence(), x, y, fgPaint);
-        y += fgPaint.getTextSize() * 1.5f;
+        if (recog.getConfidence() >= 0.85 ) {
+          canvas.drawText(recog.getTitle() + ": " + recog.getConfidence(), x, y, fgPaint);
+          y += fgPaint.getTextSize() * 1.5f;
+        }
+        else if ((recog.getConfidence() < 0.85) && (recog.getConfidence() > 0.75)) {
+          canvas.drawText("Probably: " + recog.getTitle() + ": " + recog.getConfidence(), x, y, fgPaint);
+          y += fgPaint.getTextSize() * 1.5f;
+        }
       }
     }
   }
