@@ -20,7 +20,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -38,12 +40,17 @@ import android.os.Trace;
 import android.util.Size;
 import android.view.KeyEvent;
 import android.view.Surface;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
 import org.tensorflow.demo.env.ImageUtils;
 import org.tensorflow.demo.env.Logger;
 import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
+
+import static org.tensorflow.demo.env.ImageUtils.saveBitmap;
 
 public abstract class CameraActivity extends Activity
     implements OnImageAvailableListener, Camera.PreviewCallback {
@@ -75,7 +82,6 @@ public abstract class CameraActivity extends Activity
     LOGGER.d("onCreate " + this);
     super.onCreate(null);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
     setContentView(R.layout.activity_camera);
 
     if (hasPermission()) {
@@ -454,4 +460,17 @@ public abstract class CameraActivity extends Activity
   protected abstract void onPreviewSizeChosen(final Size size, final int rotation);
   protected abstract int getLayoutId();
   protected abstract Size getDesiredPreviewFrameSize();
+
+  public void onClickBtn(View v)
+  {
+    //Toast.makeText(this, "Clicked on Button", Toast.LENGTH_LONG).show();
+    Bitmap bitmap = takeScreenshot();
+    saveBitmap(bitmap);
+  }
+
+  private Bitmap takeScreenshot() {
+    View rootView = findViewById(android.R.id.content).getRootView();
+    rootView.setDrawingCacheEnabled(true);
+    return rootView.getDrawingCache();
+  }
 }
