@@ -1,4 +1,4 @@
-## **bird_app**
+## **Bird Image Recognition App**
 Realtime Bird Recognition App
 
 # **Reference:**
